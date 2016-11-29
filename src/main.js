@@ -1,3 +1,7 @@
+import $ from 'jquery'
+
+global.jQuery = $
+
 import Vue from 'vue'
 import App from './App'
 import Title from './components/Title'
@@ -8,8 +12,14 @@ import HomePage from './components/base/HomePage'
 import PessoaListagemPage from './components/pessoas/PessoaListagemPage'
 import PessoaFormPage from './components/pessoas/PessoaFormPage'
 import Routes from './Routes'
-/* eslint-disable no-new */
-Vue.use(VueResource)
+import Axios from 'axios'
+
+const axios = Axios.create({
+	xsrfCookieName: 'csrftoken',
+	xsrfHeaderName: 'X-CSRFToken'
+})
+
+Vue.prototype.$http = axios
 
 authentication.recoverUserData()
 

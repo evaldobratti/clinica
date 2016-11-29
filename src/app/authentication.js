@@ -1,5 +1,6 @@
 import $ from 'jquery'
 import Cookies from 'js-cookie'
+import Vue from 'vue'
 
 export default {
   user: {},
@@ -7,11 +8,7 @@ export default {
     $.post('/api/auth/', credentials, (data) => {
       this.authenticate(data)
       localStorage.setItem('isAuthenticated', true)
-      $.ajaxSetup({
-        headers: {
-          'X-CSRFToken': Cookies.get('csrftoken')
-        }
-      })
+      localStorage.setItem('csrf', Cookies.get('csrftoken'))
       success(data)
     }, () => {
       this.logout()
@@ -27,7 +24,7 @@ export default {
     if (isAuthenticated == null)
       this.user.isAuthenticated = false;
     else
-      this.user.isAuthenticated = isAuthenticated;
+      this.user.isAuthenticated = isAuthenticated
 
     $.get('/api/auth_data/').done((data) => {
       this.authenticate(data)
