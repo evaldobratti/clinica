@@ -5,9 +5,8 @@ import Vue from 'vue'
 export default {
   user: {},
   login (credentials, success, error) {
-    $.post('/api/auth/', credentials, (data) => {
+    $.post('/api/auth/', credentials).then((data) => {
       this.authenticate(data)
-      localStorage.setItem('isAuthenticated', true)
       localStorage.setItem('csrf', Cookies.get('csrftoken'))
       success(data)
     }, () => {
@@ -16,15 +15,22 @@ export default {
     })
   },
   logout () {
+    console.log("aff")
     this.user = { isAuthenticated:  false }
     localStorage.setItem('isAuthenticated', null)
   },
   recoverUserData () {
-    const isAuthenticated = localStorage.getItem('isAuthenticated')
-    if (isAuthenticated == null)
+    const maybeAuthenticated = localStorage.getItem('isAuthenticated')
+    console.log(maybeAuthenticated)
+    console.log(maybeAuthenticated == 'null')
+    if (maybeAuthenticated == null || maybeAuthenticated == false || maybeAuthenticated == 'null'){
+      console.log('nop')
       this.user.isAuthenticated = false;
-    else
-      this.user.isAuthenticated = isAuthenticated
+    }
+    else {
+      console.log('yes wtf')
+      this.user.isAuthenticated = maybeAuthenticated
+    }
 
     $.get('/api/auth_data/').done((data) => {
       this.authenticate(data)
@@ -32,6 +38,7 @@ export default {
 
   },
   authenticate(user) {
+    localStorage.setItem('isAuthenticated', true)
     this.user = user
     this.user.isAuthenticated = true
   }

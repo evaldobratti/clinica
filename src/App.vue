@@ -6,6 +6,9 @@
 
 <script>
 import Hello from './components/Hello'
+import 'snackbarjs/dist/snackbar.css'
+import 'snackbarjs/themes-css/material.css'
+import 'eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css'
 
 export default {
   name: 'app',

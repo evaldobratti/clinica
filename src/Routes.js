@@ -15,6 +15,7 @@ const routes = [
     meta: { isPublic: true }
   }, 
   {
+    name: 'home',
     path: '/',
     component: HomePage
   },
@@ -25,7 +26,7 @@ const routes = [
   },
   {
     name: 'pessoaForm',
-    path: '/pessoas/:codigo',
+    path: '/pessoas/:id',
     component: PessoaFormPage
   }
 ]

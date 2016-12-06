@@ -26,7 +26,8 @@ module.exports = {
       'vue$': 'vue/dist/vue',
       'src': path.resolve(__dirname, '../src'),
       'assets': path.resolve(__dirname, '../src/assets'),
-      'components': path.resolve(__dirname, '../src/components')
+      'components': path.resolve(__dirname, '../src/components'),
+      'jquery': path.join(__dirname, '../node_modules/jquery/dist/jquery')
     }
   },
   resolveLoader: {
@@ -93,8 +94,9 @@ module.exports = {
   },
   plugins: [
     new webpack.ProvidePlugin({
+        $: 'jquery',
         jQuery: 'jquery'
-    }),
+    })
   ]
 
 }

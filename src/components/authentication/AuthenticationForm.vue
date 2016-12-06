@@ -31,9 +31,8 @@ export default {
         username: this.username,
         password: this.password
       }, (data) => {
-        console.log(data)
+        this.$router.push({ name: 'home' })
       })
-      console.log('form log')
     }
   }
 }

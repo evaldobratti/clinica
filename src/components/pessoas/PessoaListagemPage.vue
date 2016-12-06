@@ -1,12 +1,13 @@
 <template>
 <pessoa-base-page>
 	<div slot="content">
-    <table class="table table-striped" id="pessoasTbl"> 
+    <router-link :to="{ name: 'pessoaForm', params: { id: 'novo' }}" class="btn btn-primary">Novo</router-link>
+    <table class="table table-striped table-hover" id="pessoasTbl"> 
       <thead> 
         <tr> 
-          <th>#</th> 
-          <th>Nome</th> 
-          <th>Ações</th>
+          <th class="col-sm-1">#</th> 
+          <th class="col-sm-9">Nome</th> 
+          <th class="col-sm-2">Ações</th>
         </tr> 
       </thead> 
       <tbody> 
@@ -15,8 +16,8 @@
           <td>{{p.nome}}</td> 
           <td>
             <div class="btn-group btn-group-xs" role="group" aria-label="Extra-small button group"> 
-              <router-link :to="{ name: 'pessoaForm', params: { codigo: p.codigo }}" class="btn btn-primary">Editar</router-link>
-              <button class="btn btn-warning" v-on:click="apagar(p.id)">Apagar</button> 
+              <router-link :to="{ name: 'pessoaForm', params: { id: p.id }}" class="btn btn-primary">Editar</router-link>
+              <button class="btn btn-warning" v-on:click="apagar(p)">Apagar</button> 
             </div>
           </td>
         </tr> 
@@ -24,20 +25,20 @@
     </table>
     <nav aria-label="...">
       <ul class="pager">
-        <li class="previous" v-bind:class="{disabled: pagination.previous == null}"><a v-on:click="page(pagination.previous)"><span aria-hidden="true">&larr;</span> Anterior</a></li>
-        <li class="next" v-bind:class="{disabled: pagination.next == null}"><a v-on:click="page(pagination.next)">Próxima <span aria-hidden="true">&rarr;</span></a></li>
+        <li>
+          <button @click="page(pagination.previous)" class="btn btn-default" :disabled="pagination.previous == null">
+            <span aria-hidden="true">&larr;</span> Anterior
+          </button>
+        </li>
+        <li>
+          <button @click="page(pagination.next)" class="btn btn-default" :disabled="pagination.next == null">Próxima 
+            <span aria-hidden="true">&rarr;</span>
+          </button>
+        </li>
       </ul>
     </nav>
 
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Small modal</button>
-
-    <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-      <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-          ...
-        </div>
-      </div>
-    </div>
+    <confirm-dialog ref="confirmDialog"></confirm-dialog>
   </div>
 
   
@@ -47,8 +48,9 @@
 
 import PessoaBasePage from './PessoaBasePage'
 import pessoaApi from '../../app/pessoa'
+import ConfirmDialog from '../commons/ConfirmDialog'
 import $ from 'jquery'
-import bootstrap from 'bootstrap'
+import snackbar from 'snackbarjs'
 
 export default {
   created() {
@@ -62,11 +64,12 @@ export default {
   	}
   },
   components: {
-  	PessoaBasePage
+  	PessoaBasePage, ConfirmDialog
   },
   methods: {
-    page(page) {
+    page(page, shouldScroll) {
       const get = page || '/api/pessoas/'
+      const scroll = shouldScroll == undefined ? true : shouldScroll
       this.$http.get(get).then((response) => {
         this.pessoas = response.data.results
         this.pagination = {
@@ -74,19 +77,29 @@ export default {
           previous: response.data.previous,
           current: page
         }
-        $('html body').animate({
-          scrollTop: $('body').offset().top
-        }, 500)
+        if (scroll)
+          $('html body').animate({
+            scrollTop: $('body').offset().top
+          }, 500)
       })
     },
-    apagar(id) {
-      /*this.$http.delete('/api/pessoas/' + id + '/').
-        then(response => {
+    apagar(pessoa) {
+      this.$refs.confirmDialog.show('Confirma a exclusão ' + pessoa.nome + "?",
+        () => {
+          this.$http.delete('/api/pessoas/' + pessoa.id + '/').
+            then(response => {
 
-          this.page(this.pagination.current)
-        })*/
+              this.page(this.pagination.current, false)
+              this.$snack('Pessoa excluída com sucesso!')
+              /*$.snackbar({
+                content: 'Pessoa excluída com sucesso!',
+                style: 'toast',
+                timeout: 1000
+              })
+              console.log($.snackbar)*/
+            })
+        })
     }
   }
-
 }
 </script>
