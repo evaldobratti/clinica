@@ -1,6 +1,6 @@
 <template>
-    <div :id="_uid" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-      <div class="modal-dialog modal-sm" role="document">
+    <div :id="_uid" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+      <div class="modal-dialog" role="document">
         <div class="modal-content"> 
           <div class="modal-header"> 
             <button v-if="closeable" type="button" class="close" data-dismiss="modal" aria-label="Close" @click="close">
@@ -44,12 +44,16 @@ export default {
   methods: {
       show(closeCb) {
         this.lastCb = closeCb;
-        $('#' + this._uid).modal({
-          backdrop: 'static'
-        })
+        if (this.static)
+          $('#' + this._uid).modal({
+            backdrop: 'static'
+          })
+        else
+          $('#' + this._uid).modal()
       },
       close() {
-        this.lastCb()
+        if (this.lastCb)
+          this.lastCb()
         this.lastCb = () => {}
       }
     }

@@ -12,7 +12,8 @@ import Axios from 'axios'
 import Snackbar from './components/commons/Snackbar'
 import 'bootstrap'
 import 'moment'
-import datetimepicker from 'eonasdan-bootstrap-datetimepicker'
+import 'eonasdan-bootstrap-datetimepicker'
+import 'jquery-mask-plugin'
 
 
 const axios = Axios.create({
@@ -22,8 +23,6 @@ const axios = Axios.create({
 
 Vue.prototype.$http = axios
 Vue.prototype.$snack = Snackbar
-
-authentication.recoverUserData()
 
 const vue = new Vue({
   el: '#app',

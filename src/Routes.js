@@ -5,6 +5,7 @@ import HomePage from './components/base/HomePage'
 import PessoaListagemPage from './components/pessoas/PessoaListagemPage'
 import PessoaFormPage from './components/pessoas/PessoaFormPage'
 import authentication from './app/authentication'
+import AgendaPage from './components/AgendaPage'
 
 Vue.use(VueRouter)
 
@@ -28,6 +29,11 @@ const routes = [
     name: 'pessoaForm',
     path: '/pessoas/:id',
     component: PessoaFormPage
+  },
+  {
+    name: 'agenda',
+    path: '/agenda',
+    component: AgendaPage
   }
 ]
 
@@ -43,6 +49,12 @@ router.beforeEach((to, from, next) => {
         path: '/login',
         query: { redirect: to.fullPath }
       })
+})
+
+authentication.recoverUserData(() => {
+  router.push({
+    path: '/login'
+  })
 })
 
 export default router

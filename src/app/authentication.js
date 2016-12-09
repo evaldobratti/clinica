@@ -19,22 +19,24 @@ export default {
     this.user = { isAuthenticated:  false }
     localStorage.setItem('isAuthenticated', null)
   },
-  recoverUserData () {
+  recoverUserData (failcb) {
     const maybeAuthenticated = localStorage.getItem('isAuthenticated')
     console.log(maybeAuthenticated)
     console.log(maybeAuthenticated == 'null')
     if (maybeAuthenticated == null || maybeAuthenticated == false || maybeAuthenticated == 'null'){
-      console.log('nop')
       this.user.isAuthenticated = false;
     }
     else {
-      console.log('yes wtf')
       this.user.isAuthenticated = maybeAuthenticated
     }
 
     $.get('/api/auth_data/').done((data) => {
       this.authenticate(data)
-    }).fail(this.logout)
+    }).fail(() => {
+      this.logout()
+      //failcb()
+
+    })
 
   },
   authenticate(user) {
@@ -43,5 +45,3 @@ export default {
     this.user.isAuthenticated = true
   }
 }
-
-

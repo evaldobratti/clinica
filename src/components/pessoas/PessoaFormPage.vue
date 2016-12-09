@@ -81,11 +81,9 @@ import _ from 'underscore'
 import $ from 'jquery'
 import moment from 'moment'
 
-
-
 export default {
   created() {
-    if (typeof this.$route.params.id == 'number')
+    if (!isNaN(this.$route.params.id)) 
     	this.$http.get('/api/pessoas/' + this.$route.params.id + '/').then((response) => {
     		this.pessoa = response.data
         var ele = this;
@@ -105,9 +103,10 @@ export default {
   	}
   },
   mounted() {
-    $("#dataNascimento").datetimepicker({
+    $('#dataNascimento').datetimepicker({
       format: 'DD/MM/YYYY'
     })
+    $('#dataNascimento input').mask('00/00/0000', {placeholder: '__/__/____'});
 
   },
   methods: {
