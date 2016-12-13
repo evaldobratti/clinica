@@ -14,6 +14,7 @@ import 'bootstrap'
 import 'moment'
 import 'eonasdan-bootstrap-datetimepicker'
 import 'jquery-mask-plugin'
+import 'select2'
 
 
 const axios = Axios.create({

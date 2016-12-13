@@ -1,13 +1,13 @@
 <template>
-    <div :id="_uid" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div :id="_uid" class="modal fade" role="dialog" aria-labelledby="mySmallModalLabel">
       <div class="modal-dialog" role="document">
-        <div class="modal-content"> 
-          <div class="modal-header"> 
+        <div class="modal-content">
+          <div class="modal-header">
             <button v-if="closeable" type="button" class="close" data-dismiss="modal" aria-label="Close" @click="close">
-              <span aria-hidden="true">×</span></button> 
-              <h4 class="modal-title" id="mySmallModalLabel">{{title}}</h4> 
-          </div> 
-          <div class="modal-body"> <slot></slot></div> 
+              <span aria-hidden="true">×</span></button>
+              <h4 class="modal-title" id="mySmallModalLabel">{{title}}</h4>
+          </div>
+          <div class="modal-body"> <slot></slot></div>
           <div class="modal-footer">
             <slot name="footer"></slot>
           </div>

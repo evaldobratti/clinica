@@ -1,31 +1,32 @@
 <template>
   <modal ref="modal" title="Agendamento">
-    
+
       <form class="form-horizontal">
         <fieldset>
 
 
         <!-- Text input-->
         <div class="form-group">
-          <label class="col-md-4 control-label" for="profissional">Profissional</label>  
+          <label class="col-md-4 control-label" for="profissional">Profissional</label>
           <div class="col-md-4">
-          <input id="profissional" name="profissional" type="text" placeholder="" class="form-control input-md">
-            
+          <select id="profissional" name="profissional" type="text" placeholder="" class="form-control input-md">
+          </select>
+
           </div>
         </div>
 
         <!-- Text input-->
         <div class="form-group">
-          <label class="col-md-4 control-label" for="cliente">Cliente</label>  
+          <label class="col-md-4 control-label" for="cliente">Cliente</label>
           <div class="col-md-4">
           <input id="cliente" name="cliente" type="text" placeholder="" class="form-control input-md">
-            
+
           </div>
         </div>
 
         <!-- Text input-->
         <div class="form-group">
-          <label class="col-md-4 control-label" for="dia">Dia</label>  
+          <label class="col-md-4 control-label" for="dia">Dia</label>
           <div class="col-md-4">
               <div class="input-group date" id="data">
                 <input type="text" class="form-control" />
@@ -38,7 +39,7 @@
 
         <!-- Text input-->
         <div class="form-group">
-          <label class="col-md-4 control-label" for="inicio">Início</label>  
+          <label class="col-md-4 control-label" for="inicio">Início</label>
           <div class="col-md-4">
               <div class="input-group date" id="inicio">
                 <input type="text" class="form-control" />
@@ -51,7 +52,7 @@
 
         <!-- Text input-->
         <div class="form-group">
-          <label class="col-md-4 control-label" for="fim">Fim</label>  
+          <label class="col-md-4 control-label" for="fim">Fim</label>
           <div class="col-md-4">
             <div class="input-group date" id="fim">
               <input type="text" class="form-control" />
@@ -71,6 +72,7 @@
     </div>
   </modal>
 </template>
+
 <script>
 
 import Modal from './commons/Modal'
@@ -99,6 +101,26 @@ export default {
       format: 'HH:mm'
     })
     $('#fim input').mask('00:00', {placeholder: '__:__'});
+
+    $('#profissional').select2({
+      theme: "bootstrap",
+      templateResult(data) {
+        return data.nome
+      },
+      templateSelection(data) {
+        return data.nome
+      },
+      ajax: {
+        url: '/api/pessoas/',
+        delay: 250,
+        processResults(data) {
+          console.log(data.results)
+          return {
+            results: data.results
+          }
+        }
+      }
+    })
   },
   methods: {
     show(agendamento) {

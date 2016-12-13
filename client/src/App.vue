@@ -10,6 +10,8 @@ import 'snackbarjs/dist/snackbar.css'
 import 'snackbarjs/themes-css/material.css'
 import 'eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css'
 import 'fullcalendar/dist/fullcalendar.min.css'
+import 'select2/dist/css/select2.css'
+import 'select2-bootstrap-theme/dist/select2-bootstrap.css'
 
 export default {
   name: 'app',

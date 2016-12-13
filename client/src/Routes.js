@@ -10,11 +10,11 @@ import AgendaPage from './components/AgendaPage'
 Vue.use(VueRouter)
 
 const routes = [
-  { 
-    path: '/login', 
+  {
+    path: '/login',
     component: AuthenticationPage,
     meta: { isPublic: true }
-  }, 
+  },
   {
     name: 'home',
     path: '/',
